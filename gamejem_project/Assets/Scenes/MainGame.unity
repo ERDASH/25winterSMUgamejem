@@ -291,10 +291,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
-  minMoveDistance: 10
-  minVelocity: 0.05
+  minMoveDistance: 50
+  minVelocity: 0.01
   elapsedTime: 0
   isCleared: 0
+  failUI: {fileID: 594218357}
 --- !u!4 &92288802
 Transform:
   m_ObjectHideFlags: 0

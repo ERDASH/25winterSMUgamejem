@@ -18,6 +18,7 @@ public class GameEndManager : MonoBehaviour
     public float minVelocity = 0.05f;     // 이 이상 속도가 있으면 '움찔거림'
     public float elapsedTime;
     public bool isCleared = false;
+    public GameObject failUI;
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
@@ -26,7 +27,7 @@ public class GameEndManager : MonoBehaviour
     private bool isGameRunning = false;
     private Vector2 lastPosition;
     private Vector2 rayDirection = Vector2.up;
-    private float rayDistance = 1f;
+    private float rayDistance = 2f;
 
     void Start()
     {
@@ -126,6 +127,10 @@ public class GameEndManager : MonoBehaviour
             float gameEndTime = Time.time;
             elapsedTime = gameEndTime - gameStartTime;
 
+            if (failUI != null) 
+            {
+                failUI.SetActive(true);
+            }
             Debug.Log($"Game ended. Total play time: {elapsedTime} seconds.");
             // 게임이 끝났을 때 추가 행동을 여기에 작성하세요.
         }
