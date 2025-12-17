@@ -56,25 +56,30 @@ private void MoveTowardsHighestGroundedDongle()
         }
     }
 
-    if (highestDongle != null)
-    {
-        // 가장 높은 Dongle을 향해 이동
-        direction = (highestDongle.transform.position - transform.position).normalized;
+    if (highestDongle == null)
+    return;
 
-        // 좌우 이동
-        rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
+float myY = transform.position.y;
+float targetY = highestDongle.transform.position.y;
 
-        // 짧은 센서 범위 내에 Dongle이 있는지 확인
-        if (IsDongleInShortSensorRange() && IsGrounded)
-        {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-            IsGrounded = false;
-        }
-    }
-    else
+bool hasHigherTarget = !IsGrounded || targetY > myY + 0.05f;
+
+if (!hasHigherTarget)
+{
+    // 이미 가장 높은 위치
+    rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+    return;
+}
+
+// 이동
+float dirX = Mathf.Sign(highestDongle.transform.position.x - transform.position.x);
+rb.linearVelocity = new Vector2(dirX * moveSpeed, rb.linearVelocity.y);
+
+    // 점프
+    if (IsGrounded && IsDongleInShortSensorRange())
     {
-        // 주변에 Dongle이 없으면 멈춤
-        rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        IsGrounded = false;
     }
 }
 
