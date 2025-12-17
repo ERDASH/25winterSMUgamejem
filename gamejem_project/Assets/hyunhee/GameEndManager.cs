@@ -10,10 +10,17 @@ public class GameManager : MonoBehaviour
     public GameObject targetObject; // JJoayo 오브젝트를 연결하세요.
     public float stuckTimeLimit = 3.0f; // 갇혀있다고 판단하기 위한 시간 (초)
     public LayerMask obstacleLayer; // 장애물 레이어 설정
+    public float minMoveDistance = 0.01f; // 이 이하 이동이면 멈춘 것으로 판단
+    public float minVelocity = 0.05f;     // 이 이상 속도가 있으면 '움찔거림'
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private float stuckTimer;
+    private float gameStartTime;
+    private bool isGameRunning = false;
+    private Vector2 lastPosition;
+    private Vector2 rayDirection = Vector2.up;
+    private float rayDistance = 1f;
 
     void Start()
     {
@@ -31,31 +38,73 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("Target object is not assigned!");
         }
+
+        // 게임 시작 시간 기록
+        gameStartTime = Time.time;
+        isGameRunning = true;
+        lastPosition = rb.position;
     }
 
-    void Update()
+    void FixedUpdate()
+{
+    if (targetObject == null || rb == null || boxCollider == null)
+        return;
+
+    Vector2 boxTopCenter = new Vector2(
+        boxCollider.bounds.center.x,
+        boxCollider.bounds.max.y
+    );
+
+    // 레이 시각화 (Scene 뷰 + Gizmos ON 필수)
+    Debug.DrawRay(
+        boxTopCenter,
+        rayDirection * rayDistance,
+        Color.red,
+        0.1f
+    );
+
+    RaycastHit2D hitUp = Physics2D.Raycast(
+        boxTopCenter,
+        rayDirection,
+        rayDistance,
+        obstacleLayer
+    );
+
+    float movedDistance = Vector2.Distance(rb.position, lastPosition);
+    float velocityMagnitude = rb.linearVelocity.magnitude;
+
+    bool tryingToMoveButStuck =
+        movedDistance < minMoveDistance &&
+        velocityMagnitude > minVelocity;
+
+    if (hitUp.collider != null && tryingToMoveButStuck)
     {
-        if (targetObject != null && rb != null && boxCollider != null)
+        stuckTimer += Time.fixedDeltaTime;
+
+        if (stuckTimer >= stuckTimeLimit)
         {
-            // 점프를 시도할 때 위에 장애물이 있는지 확인
-            Vector2 boxTopCenter = new Vector2(boxCollider.bounds.center.x, boxCollider.bounds.max.y);
-            RaycastHit2D hit = Physics2D.Raycast(boxTopCenter, Vector2.up, 0.1f, obstacleLayer);
+            Debug.Log($"{targetObject.name} is STUCK");
+            EndGame();
+        }
+    }
+    else
+    {
+        stuckTimer = 0f;
+    }
 
-            if (hit.collider != null)
-            {
-                stuckTimer += Time.deltaTime;
+    lastPosition = rb.position;
+}
 
-                // 갇혀있는지 확인
-                if (stuckTimer >= stuckTimeLimit)
-                {
-                    Debug.Log($"{targetObject.name} is stuck due to an obstacle above!");
-                    // 갇혀있을 때 추가 행동을 여기에 작성하세요.
-                }
-            }
-            else
-            {
-                stuckTimer = 0; // 장애물이 없으면 타이머 초기화
-            }
+    public void EndGame()
+    {
+        if (isGameRunning)
+        {
+            isGameRunning = false;
+            float gameEndTime = Time.time;
+            float elapsedTime = gameEndTime - gameStartTime;
+
+            Debug.Log($"Game ended. Total play time: {elapsedTime} seconds.");
+            // 게임이 끝났을 때 추가 행동을 여기에 작성하세요.
         }
     }
 }
