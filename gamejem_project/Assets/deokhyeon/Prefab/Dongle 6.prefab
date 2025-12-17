@@ -50,6 +50,7 @@ MonoBehaviour:
   level: 6
   nextLevelPrefab: {fileID: 526530638594121062, guid: dcd7ab87f97262546ad6bc2087e00a5b, type: 3}
   isGrounded: 0
+  mergeEffectPrefab: {fileID: 2423407412989859337, guid: a7e4d5d043375e740ad977285abce6c1, type: 3}
 --- !u!212 &2651382017283182446
 SpriteRenderer:
   serializedVersion: 2

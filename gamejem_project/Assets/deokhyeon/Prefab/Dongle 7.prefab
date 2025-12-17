@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DongleMerge
   level: 7
-  nextLevelPrefab: {fileID: 0}
+  nextLevelPrefab: {fileID: 526530638594121062, guid: d394ec0527e970b4faf10294ee52218d, type: 3}
   isGrounded: 0
+  mergeEffectPrefab: {fileID: 2423407412989859337, guid: a7e4d5d043375e740ad977285abce6c1, type: 3}
 --- !u!212 &4538369723468322211
 SpriteRenderer:
   serializedVersion: 2

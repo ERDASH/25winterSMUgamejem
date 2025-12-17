@@ -109,6 +109,7 @@ MonoBehaviour:
   level: 0
   nextLevelPrefab: {fileID: 4717128012092234154, guid: 4a6a41eb03bb58845a7cafee51fa0b6e, type: 3}
   isGrounded: 0
+  mergeEffectPrefab: {fileID: 2423407412989859337, guid: a7e4d5d043375e740ad977285abce6c1, type: 3}
 --- !u!50 &-6093143359448483009
 Rigidbody2D:
   serializedVersion: 5

@@ -9,6 +9,10 @@ public class Prefab_spawner : MonoBehaviour
     public GameObject[] donglePrefabs; // 스폰 가능한 Dongle 프리팹 배열
     public Transform spawnPoint; // 스폰 위치
     public GameObject currentPreview; // 현재 미리보기 오브젝트
+    public int maxSpawnLevel = 0;
+
+    public float spawnCooldown = 1.0f; // 쿨타임 (초)
+    private float lastSpawnTime = -999f; // 마지막 스폰 시간
 
     void Start()
     {
@@ -20,21 +24,27 @@ public class Prefab_spawner : MonoBehaviour
     {
         if (currentPreview != null)
         {
-        currentPreview.transform.position = spawnPoint.position;
+            currentPreview.transform.position = spawnPoint.position;
         }
 
         // 스페이스바를 누르면 현재 미리보기 오브젝트를 떨어뜨리고 새로운 미리보기 생성
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && CanSpawn())
         {
             DropDongle();
             SpawnPreview();
+            lastSpawnTime = Time.time;
         }
+    }
+
+    private bool CanSpawn()
+    {
+        return Time.time >= lastSpawnTime + spawnCooldown;
     }
 
     private void SpawnPreview()
     {
-        // 랜덤으로 Dongle 선택
-        int randomIndex = Range(0, donglePrefabs.Length); // UnityEngine.Random.Range 사용
+        // 랜덤으로 Dongle 선택 (현재 스폰 가능한 최대 레벨까지)
+    int randomIndex = Range(0, maxSpawnLevel + 1); // maxSpawnLevel을 포함하여 랜덤 선택
 
         // 기존 미리보기 오브젝트 삭제
         if (currentPreview != null)
@@ -59,6 +69,15 @@ public class Prefab_spawner : MonoBehaviour
 
             // 미리보기 오브젝트 초기화
             currentPreview = null;
+        }
+    }
+
+    public void UpdateMaxSpawnLevel(int newLevel)
+    {
+        // 최대 스폰 레벨 업데이트
+        if (newLevel > maxSpawnLevel)
+        {
+            maxSpawnLevel = newLevel;
         }
     }
 }

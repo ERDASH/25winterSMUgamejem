@@ -13,8 +13,9 @@ public class DongleMerge : MonoBehaviour
     public int level; // Dongle의 레벨
     public GameObject nextLevelPrefab; // 다음 레벨의 Dongle 프리팹
     private bool isMerging = false; // 중복 Merge 방지 플래그
-    private const int maxLevel = 7; // 최대 레벨 설정
+    private const int maxLevel = 10; // 최대 레벨 설정
     public bool isGrounded = false; // 바닥 또는 다른 Dongle 위에 닿아있는지 여부를 나타내는 플래그
+    public GameObject mergeEffectPrefab; // 병합 시 출력할 이펙트 프리팹
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -57,10 +58,32 @@ public class DongleMerge : MonoBehaviour
         // 두 Dongle의 위치 평균 계산
         Vector3 spawnPosition = (this.transform.position + otherDongle.transform.position) / 2;
 
+        // 병합 이펙트 출력
+        if (mergeEffectPrefab != null)
+        {
+            GameObject mergeEffect = Instantiate(mergeEffectPrefab, spawnPosition, Quaternion.identity);
+            Destroy(mergeEffect, 1f); // 생성된 병합 이펙트를 1초 후에 삭제
+        }
+        else
+        {
+            Debug.LogWarning("Merge effect prefab is not assigned!");
+        }
+
         // 다음 단계의 Dongle 스폰
         if (nextLevelPrefab != null)
         {
-            Instantiate(nextLevelPrefab, spawnPosition, Quaternion.identity);
+            GameObject newDongle = Instantiate(nextLevelPrefab, spawnPosition, Quaternion.identity);
+
+            // Prefab_spawner의 최대 스폰 레벨 업데이트
+            Prefab_spawner spawner = FindObjectOfType<Prefab_spawner>();
+            if (spawner != null)
+            {
+                DongleMerge newDongleMerge = newDongle.GetComponent<DongleMerge>();
+                if (newDongleMerge != null)
+                {
+                    spawner.UpdateMaxSpawnLevel(newDongleMerge.level);
+                }
+            }
         }
         else
         {
