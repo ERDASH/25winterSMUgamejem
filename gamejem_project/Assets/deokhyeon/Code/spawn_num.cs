@@ -9,7 +9,7 @@ public class spawn_num : MonoBehaviour
     void Update()
     {
     // 숫자패드 입력 감지
-    for (int i = 1; i <= 8; i++)
+    for (int i = 1; i <= 9; i++)
     {
     if (Input.GetKeyDown(KeyCode.Keypad1 + (i - 1))) // Keypad1부터 Keypad7까지 감지
     {
