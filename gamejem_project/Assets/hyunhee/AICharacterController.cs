@@ -19,6 +19,7 @@ public class AICharacterController : MonoBehaviour
     public LayerMask dongleLayer; // Dongle 레이어 설정
 
     private Rigidbody2D rb;
+    private bool IsGrounded;
 
     private void Awake()
     {
@@ -64,9 +65,10 @@ private void MoveTowardsHighestGroundedDongle()
         rb.linearVelocity = new Vector2(direction.x * moveSpeed, rb.linearVelocity.y);
 
         // 짧은 센서 범위 내에 Dongle이 있는지 확인
-        if (IsDongleInShortSensorRange() && IsGrounded())
+        if (IsDongleInShortSensorRange() && IsGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            IsGrounded = false;
         }
     }
     else
@@ -75,12 +77,6 @@ private void MoveTowardsHighestGroundedDongle()
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
     }
 }
-
-    private bool IsGrounded()
-    {
-        // 바닥에 닿아 있는지 확인
-        return Physics2D.Raycast(transform.position, Vector2.down, 0.1f, dongleLayer);
-    }
 
     private bool IsDongleInShortSensorRange()
     {
@@ -108,5 +104,14 @@ private void MoveTowardsHighestGroundedDongle()
         // 짧은 센서 범위를 시각적으로 표시
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, shortSensorSize);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // 바닥에 닿았는지 확인
+        if (collision.contacts[0].normal.y > 0.5f)
+        {
+            IsGrounded = true;
+        }
     }
 }
