@@ -11,29 +11,35 @@ public class Camera_movement : MonoBehaviour
         public float heightThreshold;
 
         private void LateUpdate()
+    {
+    // Find all active GameObjects in the scene
+    GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+
+    // Filter objects to find those with names starting with "Dongle" and exclude the preview dongle
+    var placedDongles = allObjects.Where(obj => obj.name.StartsWith("Dongle") && obj != prefabSpawner.currentPreview).ToArray();
+
+    if (placedDongles.Length == 0) return;
+
+    // Find the dongle with the highest y position
+    GameObject highestDongle = placedDongles.OrderByDescending(d => d.transform.position.y).FirstOrDefault();
+    if (highestDongle.GetComponent<DongleMerge>().isGrounded == true)
+    {
+        if (highestDongle != null)
         {
-            // Find all active GameObjects in the scene
-            GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+            // Calculate the desired camera position
+            float targetY = highestDongle.transform.position.y + offset.y;
 
-            // Filter objects to find those with names starting with "Dongle" and exclude the preview dongle
-            var placedDongles = allObjects.Where(obj => obj.name.StartsWith("Dongle") && obj != prefabSpawner.currentPreview).ToArray();
+            // 최소 높이 y = 10 적용
+            targetY = Mathf.Max(targetY, 10f);
 
-            if (placedDongles.Length == 0) return;
+            Vector3 desiredPosition = new Vector3(transform.position.x, targetY, transform.position.z);
 
-            // Find the dongle with the highest y position
-            GameObject highestDongle = placedDongles.OrderByDescending(d => d.transform.position.y).FirstOrDefault();
-            if (highestDongle.GetComponent<DongleMerge>().isGrounded == true)
-            {
-                if (highestDongle != null)
-                    {
-                    // Calculate the desired camera position
-                    Vector3 desiredPosition = new Vector3(transform.position.x, highestDongle.transform.position.y + offset.y, transform.position.z);
-                    // Smoothly move the camera to the desired position
-                    //transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-                    transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime);
-                    }
-            }
+            // Smoothly move the camera to the desired position
+            transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref velocity, smoothTime);
         }
+    }
+}
+
 
 }
 
