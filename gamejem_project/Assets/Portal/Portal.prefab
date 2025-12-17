@@ -4996,6 +4996,9 @@ GameObject:
   - component: {fileID: 145697707171361138}
   - component: {fileID: 8063650822783711817}
   - component: {fileID: 7682580579897916501}
+  - component: {fileID: 7691058383556628761}
+  - component: {fileID: 4450830623929787129}
+  - component: {fileID: 1793900412630846221}
   m_Layer: 0
   m_Name: Portal
   m_TagString: Untagged
@@ -5016,10 +5019,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7678000404717820881}
   - {fileID: 2421930741790228191}
   - {fileID: 1329020561821141318}
   - {fileID: 8167544095361354091}
-  - {fileID: 7678000404717820881}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -62.992, y: 0, z: 0}
 --- !u!198 &8063650822783711817
@@ -9825,6 +9828,64 @@ ParticleSystemRenderer:
   m_MeshWeighting1: 1
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
+--- !u!114 &7691058383556628761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042696061724707813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fd788404c755d040a31bd02b2531bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::spawn_num
+  donglePrefabs:
+  - {fileID: 7985798238953073290, guid: bd2144d9ce15a434fbb0b254546af9e5, type: 3}
+  - {fileID: 4717128012092234154, guid: 4a6a41eb03bb58845a7cafee51fa0b6e, type: 3}
+  - {fileID: 1513968212668021883, guid: 13e7966e8aa6cc748bbf658b0353edeb, type: 3}
+  - {fileID: 5216932609235262540, guid: 668ba7c1969105c4ca0450c751196f94, type: 3}
+  - {fileID: 4750654747572254785, guid: 82e6a6027f25e7a45ada9b4761d46a98, type: 3}
+  - {fileID: 1323738036549166743, guid: ba3e2e6f343271b459c60385dde90866, type: 3}
+  - {fileID: 7127860407745773570, guid: 0829b1aef291e8142b7403ca14839784, type: 3}
+  - {fileID: 526530638594121062, guid: dcd7ab87f97262546ad6bc2087e00a5b, type: 3}
+  spawnPoint: {fileID: 7678000404717820881}
+--- !u!114 &4450830623929787129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042696061724707813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833075f203cc8b94ab46b28186f85d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Spawner_movement
+  moveSpeed: 5
+--- !u!114 &1793900412630846221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5042696061724707813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccc1cc80886c37b4394902738a69db7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DongleSpawner
+  donglePrefabs:
+  - {fileID: 7985798238953073290, guid: bd2144d9ce15a434fbb0b254546af9e5, type: 3}
+  - {fileID: 4717128012092234154, guid: 4a6a41eb03bb58845a7cafee51fa0b6e, type: 3}
+  - {fileID: 1513968212668021883, guid: 13e7966e8aa6cc748bbf658b0353edeb, type: 3}
+  - {fileID: 5216932609235262540, guid: 668ba7c1969105c4ca0450c751196f94, type: 3}
+  - {fileID: 4750654747572254785, guid: 82e6a6027f25e7a45ada9b4761d46a98, type: 3}
+  - {fileID: 1323738036549166743, guid: ba3e2e6f343271b459c60385dde90866, type: 3}
+  - {fileID: 7127860407745773570, guid: 0829b1aef291e8142b7403ca14839784, type: 3}
+  - {fileID: 526530638594121062, guid: dcd7ab87f97262546ad6bc2087e00a5b, type: 3}
+  spawnPoint: {fileID: 7678000404717820881}
+  currentPreview: {fileID: 0}
 --- !u!1 &5937886198240160760
 GameObject:
   m_ObjectHideFlags: 0
