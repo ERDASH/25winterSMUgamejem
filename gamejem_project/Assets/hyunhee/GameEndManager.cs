@@ -15,7 +15,6 @@ public class GameEndManager : MonoBehaviour
     public float stuckTimeLimit = 3.0f; // 갇혀있다고 판단하기 위한 시간 (초)
     public LayerMask obstacleLayer; // 장애물 레이어 설정
     public float minMoveDistance = 0.01f; // 이 이하 이동이면 멈춘 것으로 판단
-    public float minVelocity = 0.05f;     // 이 이상 속도가 있으면 '움찔거림'
     public float elapsedTime;
     public bool isCleared = false;
     public GameObject failUI;
@@ -81,11 +80,9 @@ public class GameEndManager : MonoBehaviour
     );
 
     float movedDistance = Vector2.Distance(rb.position, lastPosition);
-    float velocityMagnitude = rb.linearVelocity.magnitude;
 
     bool tryingToMoveButStuck =
-        movedDistance < minMoveDistance &&
-        velocityMagnitude > minVelocity;
+        movedDistance < minMoveDistance;
 
     if (hitUp.collider != null && tryingToMoveButStuck)
     {
