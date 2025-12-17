@@ -17,6 +17,8 @@ public class AICharacterController : MonoBehaviour
     public Vector2 shortSensorSize = new Vector2(10f, 5f); // 짧은 센서 크기
     public Vector2 direction;
     public LayerMask dongleLayer; // Dongle 레이어 설정
+    public Vector2 tagSensorSize = new Vector2(20f, 10f);   // Tag 센서 크기
+    public string targetTag = "Button";   
 
     private Rigidbody2D rb;
     private bool IsGrounded;
@@ -26,11 +28,70 @@ public class AICharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void FixedUpdate()
+    private bool IsTagInSensorRange()
+{
+    Collider2D[] objects = Physics2D.OverlapBoxAll(transform.position, tagSensorSize, 0);
+
+    foreach (Collider2D col in objects)
     {
-        MoveTowardsHighestGroundedDongle();
+        if (col.CompareTag(targetTag))
+        {
+            return true;    // 범위 안에 해당 태그 존재
+        }
     }
 
+    return false;   // 없음
+}
+
+private void MoveTowardsPriorityTarget(Transform target)
+{
+    float dirX = Mathf.Sign(target.position.x - transform.position.x);
+    rb.linearVelocity = new Vector2(dirX * moveSpeed, rb.linearVelocity.y);
+
+    // 🔥 타깃이 더 높은 위치에 있고, 땅에 닿아 있다면 점프
+    if (IsGrounded && target.position.y > transform.position.y + 0.1f)
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        IsGrounded = false; 
+    }
+}
+
+    private void FixedUpdate()
+    {
+        Transform priorityTarget = GetTargetObjectInSensor();
+
+    if (priorityTarget != null)
+    {
+        MoveTowardsPriorityTarget(priorityTarget);
+        return;
+    }
+
+    MoveTowardsHighestGroundedDongle();
+    }
+
+private Transform GetTargetObjectInSensor()
+{
+    Collider2D[] objects = Physics2D.OverlapBoxAll(transform.position, tagSensorSize, 0);
+
+    Transform closest = null;
+    float closestDist = float.MaxValue;
+
+    foreach (Collider2D col in objects)
+    {
+        if (col.CompareTag(targetTag))
+        {
+            float dist = Vector2.Distance(transform.position, col.transform.position);
+            if (dist < closestDist)
+            {
+                closestDist = dist;
+                closest = col.transform;
+            }
+        }
+    }
+
+    return closest; // 없다면 null
+}
+    
     // 2025-12-17 AI-Tag
 // This was created with the help of Assistant, a Unity Artificial Intelligence product.
 
@@ -109,6 +170,9 @@ rb.linearVelocity = new Vector2(dirX * moveSpeed, rb.linearVelocity.y);
         // 짧은 센서 범위를 시각적으로 표시
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, shortSensorSize);
+    
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position, tagSensorSize);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
