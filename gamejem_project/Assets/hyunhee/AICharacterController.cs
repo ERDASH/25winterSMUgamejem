@@ -22,10 +22,26 @@ public class AICharacterController : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool IsGrounded;
+    private GameEndManager gameEndManager;
+    private Ending_trigger endingTrigger;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        // GameManager 오브젝트에서 GameEndManager 컴포넌트를 가져옵니다.
+        GameObject gameManager = GameObject.Find("GameManager");
+        if (gameManager != null)
+        {
+        gameEndManager = gameManager.GetComponent<GameEndManager>();
+        }
+
+        // ending_trigger 오브젝트에서 Ending_trigger 컴포넌트를 가져옵니다.
+        GameObject endingTriggerObject = GameObject.Find("ending_trigger");
+        if (endingTriggerObject != null)
+        {
+        endingTrigger = endingTriggerObject.GetComponent<Ending_trigger>();
+        }
     }
 
     private bool IsTagInSensorRange()
@@ -58,15 +74,18 @@ private void MoveTowardsPriorityTarget(Transform target)
 
     private void FixedUpdate()
     {
-        Transform priorityTarget = GetTargetObjectInSensor();
+        if (gameEndManager.isGameRunning == true && endingTrigger.isGameCleared == false)
+        {
+            Transform priorityTarget = GetTargetObjectInSensor();
 
-    if (priorityTarget != null)
-    {
-        MoveTowardsPriorityTarget(priorityTarget);
-        return;
-    }
+            if (priorityTarget != null)
+            {
+                MoveTowardsPriorityTarget(priorityTarget);
+                return;
+            }
 
-    MoveTowardsHighestGroundedDongle();
+            MoveTowardsHighestGroundedDongle();
+        }
     }
 
 private Transform GetTargetObjectInSensor()

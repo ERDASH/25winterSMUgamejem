@@ -11,6 +11,7 @@ public class Ending_trigger : MonoBehaviour
     public AudioClip buttonSound; // Button.wav 오디오 클립
     public AudioClip endSound;
     public AudioClip yohooSound;
+    public bool isGameCleared = false;
 
     private bool hasPlayed = false; // 사운드가 재생되었는지 확인하는 플래그
     private bool doOnce = false;
@@ -27,6 +28,8 @@ public class Ending_trigger : MonoBehaviour
 
         doOnce = true;
 
+        isGameCleared = true;
+        
         if (!hasPlayed)
         {
         // 사운드 재생

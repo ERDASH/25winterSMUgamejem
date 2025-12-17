@@ -16,10 +16,28 @@ public class Prefab_spawner : MonoBehaviour
     public float spawnCooldown = 1.0f; // 쿨타임 (초)
     private float lastSpawnTime = -999f; // 마지막 스폰 시간
 
-    void Start()
+
+    private GameEndManager gameEndManager;
+    private Ending_trigger endingTrigger;
+
+    private void Start()
     {
         // 초기 미리보기 오브젝트 생성
         SpawnPreview();
+
+    // GameManager 오브젝트에서 GameEndManager 컴포넌트를 가져옵니다.
+    GameObject gameManager = GameObject.Find("GameManager");
+    if (gameManager != null)
+    {
+    gameEndManager = gameManager.GetComponent<GameEndManager>();
+    }
+
+    // ending_trigger 오브젝트에서 Ending_trigger 컴포넌트를 가져옵니다.
+    GameObject endingTriggerObject = GameObject.Find("ending_trigger");
+    if (endingTriggerObject != null)
+    {
+    endingTrigger = endingTriggerObject.GetComponent<Ending_trigger>();
+    }
     }
 
     void Update()
@@ -40,7 +58,14 @@ public class Prefab_spawner : MonoBehaviour
 
     private bool CanSpawn()
     {
-        return Time.time >= lastSpawnTime + spawnCooldown;
+        if (gameEndManager.isGameRunning == true && endingTrigger.isGameCleared == false)
+        {
+            return Time.time >= lastSpawnTime + spawnCooldown;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private void SpawnPreview()

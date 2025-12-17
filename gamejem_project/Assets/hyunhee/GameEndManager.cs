@@ -26,7 +26,7 @@ public class GameEndManager : MonoBehaviour
     private PolygonCollider2D boxCollider;
     private float stuckTimer;
     private float gameStartTime;
-    private bool isGameRunning = false;
+    public bool isGameRunning = false;
     private Vector2 lastPosition;
     private Vector2 rayDirection = Vector2.up;
     private float rayDistance = 2f;

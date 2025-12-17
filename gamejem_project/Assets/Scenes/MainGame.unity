@@ -293,7 +293,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   minMoveDistance: 50
-  minVelocity: 0.0001
   elapsedTime: 0
   isCleared: 0
   failUI: {fileID: 594218357}
@@ -2958,6 +2957,14 @@ PrefabInstance:
       propertyPath: 'donglePrefabs.Array.data[8]'
       value: 
       objectReference: {fileID: 526530638594121062, guid: d394ec0527e970b4faf10294ee52218d, type: 3}
+    - target: {fileID: 4450830623929787129, guid: 74756fb5d956baf42a80762a5713034b, type: 3}
+      propertyPath: maxX
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450830623929787129, guid: 74756fb5d956baf42a80762a5713034b, type: 3}
+      propertyPath: minX
+      value: -7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5042696061724707813, guid: 74756fb5d956baf42a80762a5713034b, type: 3}
       propertyPath: m_Name
       value: Portal
