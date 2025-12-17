@@ -9,7 +9,7 @@ using System.Collections.Generic;
 // This was created with the help of Assistant, a Unity Artificial Intelligence product.
 
 
-public class AICharacterController : MonoBehaviour
+public class AIController : MonoBehaviour
 {
     public float moveSpeed = 5f; // 이동 속도
     public float jumpForce = 10f; // 점프 힘

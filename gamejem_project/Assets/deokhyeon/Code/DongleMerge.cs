@@ -4,6 +4,9 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+// 2025-12-17 AI-Tag
+// This was created with the help of Assistant, a Unity Artificial Intelligence product.
+
 
 public class DongleMerge : MonoBehaviour
 {
@@ -11,9 +14,16 @@ public class DongleMerge : MonoBehaviour
     public GameObject nextLevelPrefab; // 다음 레벨의 Dongle 프리팹
     private bool isMerging = false; // 중복 Merge 방지 플래그
     private const int maxLevel = 7; // 최대 레벨 설정
+    public bool isGrounded = false; // 바닥 또는 다른 Dongle 위에 닿아있는지 여부를 나타내는 플래그
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 바닥에 닿았는지 확인
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.GetComponent<DongleMerge>() != null)
+        {
+            isGrounded = true;
+        }
+
         // 최대 level 동글이 예외처리
         if (isMerging || level >= maxLevel) return;
 
@@ -24,12 +34,21 @@ public class DongleMerge : MonoBehaviour
         DongleMerge otherDongle = collision.gameObject.GetComponent<DongleMerge>();
         if (otherDongle != null && otherDongle.level == this.level && !otherDongle.isMerging)
         {
-        // 병합 시작 플래그 설정
-        isMerging = true;
-        otherDongle.isMerging = true;
+            // 병합 시작 플래그 설정
+            isMerging = true;
+            otherDongle.isMerging = true;
 
-        // 병합 처리
-        MergeDongles(otherDongle);
+            // 병합 처리
+            MergeDongles(otherDongle);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        // 바닥 또는 다른 Dongle에서 떨어졌는지 확인
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.GetComponent<DongleMerge>() != null)
+        {
+            isGrounded = false;
         }
     }
 

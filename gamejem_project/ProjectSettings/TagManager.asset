@@ -5,7 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Clone
+<<<<<<< Updated upstream
   - Dongle
+=======
+  - Ground
+>>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
@@ -13,7 +17,7 @@ TagManager:
   - high
   - Water
   - UI
-  - 
+  - Obstacle
   - 
   - 
   - 

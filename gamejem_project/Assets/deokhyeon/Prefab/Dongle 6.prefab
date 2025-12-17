@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2651382017283182446}
   - component: {fileID: 1978511326463060654}
   - component: {fileID: 146092832995791239}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Dongle 6
   m_TagString: Clone
   m_Icon: {fileID: 0}

@@ -718,11 +718,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: e9ed7922-2c4e-4fd6-9df4-e12df7d8017e
+  cloudProjectId: c5abf849-a768-4cc5-9d27-64af5f90cf04
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 2025winterSMUgamejem
-  organizationId: 2025wintersmugamejem
+  projectName: 20251217
+  organizationId: kimseasa
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
