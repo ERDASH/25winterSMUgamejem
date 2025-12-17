@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3589540608519184980}
+  - component: {fileID: -5660113018680499893}
   - component: {fileID: 4538369723468322211}
   - component: {fileID: -5815458262783172354}
   - component: {fileID: 1453768401989014102}
@@ -29,11 +30,25 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5660113018680499893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526530638594121062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05428c00e63179248b2a95332d66c4a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DongleMerge
+  level: 7
+  nextLevelPrefab: {fileID: 0}
 --- !u!212 &4538369723468322211
 SpriteRenderer:
   serializedVersion: 2
