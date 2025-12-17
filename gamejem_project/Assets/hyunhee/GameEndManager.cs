@@ -21,7 +21,7 @@ public class GameEndManager : MonoBehaviour
     public GameObject failUI;
 
     private Rigidbody2D rb;
-    private BoxCollider2D boxCollider;
+    private PolygonCollider2D boxCollider;
     private float stuckTimer;
     private float gameStartTime;
     private bool isGameRunning = false;
@@ -34,11 +34,11 @@ public class GameEndManager : MonoBehaviour
         if (targetObject != null)
         {
             rb = targetObject.GetComponent<Rigidbody2D>();
-            boxCollider = targetObject.GetComponent<BoxCollider2D>();
+            boxCollider = targetObject.GetComponent<PolygonCollider2D>();
 
             if (rb == null || boxCollider == null)
             {
-                Debug.LogError("Target object must have Rigidbody2D and BoxCollider2D components!");
+                Debug.LogError("Target object must have Rigidbody2D and PolygCollider2D components!");
             }
         }
         else
