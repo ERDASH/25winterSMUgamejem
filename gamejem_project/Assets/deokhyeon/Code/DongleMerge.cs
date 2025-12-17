@@ -17,6 +17,11 @@ public class DongleMerge : MonoBehaviour
     public bool isGrounded = false; // 바닥 또는 다른 Dongle 위에 닿아있는지 여부를 나타내는 플래그
     public GameObject mergeEffectPrefab; // 병합 시 출력할 이펙트 프리팹
 
+    public AudioSource audioSource; // AudioSource 컴포넌트
+    public AudioClip mergeSound; // 병합 시 재생할 사운드
+
+    private bool hasPlayed = false; // 사운드가 재생되었는지 확인하는 플래그
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // 바닥에 닿았는지 확인
@@ -68,6 +73,14 @@ public class DongleMerge : MonoBehaviour
         {
             Debug.LogWarning("Merge effect prefab is not assigned!");
         }
+
+        // 병합 시 사운드 재생
+        if (!hasPlayed)
+        {
+            AudioSource.PlayClipAtPoint(mergeSound, spawnPosition);
+            hasPlayed = true;
+        }
+
 
         // 다음 단계의 Dongle 스폰
         if (nextLevelPrefab != null)

@@ -10,6 +10,8 @@ public class Prefab_spawner : MonoBehaviour
     public Transform spawnPoint; // 스폰 위치
     public GameObject currentPreview; // 현재 미리보기 오브젝트
     public int maxSpawnLevel = 0;
+    public AudioSource audioSource; // AudioSource 컴포넌트
+    public AudioClip spawnSound; // 소환 시 재생할 사운드
 
     public float spawnCooldown = 1.0f; // 쿨타임 (초)
     private float lastSpawnTime = -999f; // 마지막 스폰 시간
@@ -63,6 +65,11 @@ public class Prefab_spawner : MonoBehaviour
     {
         if (currentPreview != null)
         {
+            // 소환 시 사운드 재생
+            if (audioSource != null && spawnSound != null)
+            {
+                AudioSource.PlayClipAtPoint(spawnSound, spawnPoint.position);
+            }
             // 물리 효과 활성화
             currentPreview.GetComponent<Collider2D>().enabled = true;
             currentPreview.GetComponent<Rigidbody2D>().simulated = true;

@@ -19,6 +19,9 @@ public class GameEndManager : MonoBehaviour
     public float elapsedTime;
     public bool isCleared = false;
     public GameObject failUI;
+    public AudioSource audioSource; // AudioSource 컴포넌트
+    public AudioClip dieSound; // 사망 시 재생할 사운드
+    public AudioClip failSound; // 실패 시 재생할 사운드
 
     private Rigidbody2D rb;
     private PolygonCollider2D boxCollider;
@@ -126,6 +129,10 @@ public class GameEndManager : MonoBehaviour
             isGameRunning = false;
             float gameEndTime = Time.time;
             elapsedTime = gameEndTime - gameStartTime;
+            
+            audioSource.PlayOneShot(failSound);
+            audioSource.volume = 0.1f;
+            audioSource.PlayOneShot(dieSound);
 
             if (failUI != null) 
             {

@@ -7,7 +7,12 @@ public class Ending_trigger : MonoBehaviour
 {
     public GameEndManager gameManager;
     public GameObject clearUI;
+    public AudioSource audioSource; // AudioSource 컴포넌트
+    public AudioClip buttonSound; // Button.wav 오디오 클립
+    public AudioClip endSound;
+    public AudioClip yohooSound;
 
+    private bool hasPlayed = false; // 사운드가 재생되었는지 확인하는 플래그
     private bool doOnce = false;
     private float clearTime;
 
@@ -21,6 +26,16 @@ public class Ending_trigger : MonoBehaviour
             return;
 
         doOnce = true;
+
+        if (!hasPlayed)
+        {
+        // 사운드 재생
+        audioSource.PlayOneShot(buttonSound);
+        audioSource.PlayOneShot(yohooSound);
+        audioSource.volume = 0.1f;
+        audioSource.PlayOneShot(endSound);
+        hasPlayed = true; // 사운드가 재생되었음을 표시
+        }
 
         // UI 켜기
         if (clearUI != null)
