@@ -24,6 +24,7 @@ public class GameEndManager : MonoBehaviour
 
     private Rigidbody2D rb;
     private PolygonCollider2D boxCollider;
+    private AICharacterController controller;
     private float stuckTimer;
     private float gameStartTime;
     public bool isGameRunning = false;
@@ -37,6 +38,7 @@ public class GameEndManager : MonoBehaviour
         {
             rb = targetObject.GetComponent<Rigidbody2D>();
             boxCollider = targetObject.GetComponent<PolygonCollider2D>();
+            controller = targetObject.GetComponent<AICharacterController>();
 
             if (rb == null || boxCollider == null)
             {
@@ -84,19 +86,22 @@ public class GameEndManager : MonoBehaviour
     bool tryingToMoveButStuck =
         movedDistance < minMoveDistance;
 
-    if (hitUp.collider != null && tryingToMoveButStuck)
+    if(controller.hasHigherTarget)
     {
-        stuckTimer += Time.fixedDeltaTime;
-
-        if (stuckTimer >= stuckTimeLimit)
+        if (hitUp.collider != null && tryingToMoveButStuck)
         {
-            Debug.Log($"{targetObject.name} is STUCK");
-            EndGame();
+            stuckTimer += Time.fixedDeltaTime;
+
+            if (stuckTimer >= stuckTimeLimit)
+            {
+                Debug.Log($"{targetObject.name} is STUCK");
+                EndGame();
+            }
         }
-    }
-    else
-    {
-        stuckTimer = 0f;
+        else
+        {
+            stuckTimer = 0f;
+        }
     }
 
     lastPosition = rb.position;

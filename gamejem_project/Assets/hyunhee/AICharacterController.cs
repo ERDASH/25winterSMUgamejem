@@ -19,6 +19,7 @@ public class AICharacterController : MonoBehaviour
     public LayerMask dongleLayer; // Dongle 레이어 설정
     public Vector2 tagSensorSize = new Vector2(20f, 10f);   // Tag 센서 크기
     public string targetTag = "Button";   
+    public bool hasHigherTarget = false;
 
     private Rigidbody2D rb;
     private bool IsGrounded;
@@ -142,7 +143,7 @@ private void MoveTowardsHighestGroundedDongle()
 float myY = transform.position.y;
 float targetY = highestDongle.transform.position.y;
 
-bool hasHigherTarget = !IsGrounded || targetY > myY + 0.05f;
+hasHigherTarget = !IsGrounded || targetY > myY + 0.05f;
 
 if (!hasHigherTarget)
 {
