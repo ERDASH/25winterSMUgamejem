@@ -1,18 +1,38 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using TMPro;
 
 public class Ending_trigger : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D  other)
-    
+    public GameEndManager gameManager;
+    public GameObject clearUI;
+
+    private bool doOnce = false;
+    private float clearTime;
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Hit: " + other.name);
-        // 충돌한 객체의 이름이 "JJOAYO"인지 확인
-        if (other.CompareTag("Ai"))
+        if (!other.CompareTag("Ai"))
+            return;
+
+        // 이미 실행됐으면 무시
+        if (doOnce)
+            return;
+
+        doOnce = true;
+
+        // UI 켜기
+        if (clearUI != null)
+            clearUI.SetActive(true);
+
+        // 클리어 순간 시간 고정
+        if (gameManager != null && gameManager.elapsedTimeText != null)
         {
-        // 디버그 메시지 출력
-        Debug.Log("clear");
+            gameManager.isCleared = true;
+            clearTime = gameManager.elapsedTime;
+            gameManager.elapsedTimeText.text =
+                $"Clear Time: {clearTime:F2} seconds";
         }
     }
 }

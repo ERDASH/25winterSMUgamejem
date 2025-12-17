@@ -4,14 +4,20 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class GameManager : MonoBehaviour
+public class GameEndManager : MonoBehaviour
 {
+    public TextMeshProUGUI elapsedTimeText;
+
     public GameObject targetObject; // JJoayo 오브젝트를 연결하세요.
     public float stuckTimeLimit = 3.0f; // 갇혀있다고 판단하기 위한 시간 (초)
     public LayerMask obstacleLayer; // 장애물 레이어 설정
     public float minMoveDistance = 0.01f; // 이 이하 이동이면 멈춘 것으로 판단
     public float minVelocity = 0.05f;     // 이 이상 속도가 있으면 '움찔거림'
+    public float elapsedTime;
+    public bool isCleared = false;
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
@@ -95,16 +101,34 @@ public class GameManager : MonoBehaviour
     lastPosition = rb.position;
 }
 
+    void Update()
+    {
+        if (isCleared)
+        return;
+
+        // 경과 시간 업데이트
+        elapsedTime += Time.deltaTime;
+
+        // TextMeshPro UI에 경과 시간 표시
+        if (elapsedTimeText != null)
+        {
+        elapsedTimeText.text = $"Elapsed Time: {elapsedTime:F2} seconds";
+        }
+    }
+    
+
+
     public void EndGame()
     {
         if (isGameRunning)
         {
             isGameRunning = false;
             float gameEndTime = Time.time;
-            float elapsedTime = gameEndTime - gameStartTime;
+            elapsedTime = gameEndTime - gameStartTime;
 
             Debug.Log($"Game ended. Total play time: {elapsedTime} seconds.");
             // 게임이 끝났을 때 추가 행동을 여기에 작성하세요.
         }
     }
 }
+
