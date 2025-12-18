@@ -11,6 +11,8 @@ public class GameEndManager : MonoBehaviour
 {
     public TextMeshProUGUI elapsedTimeText;
 
+    public Slider timeSlider; // 슬라이더 UI를 연결할 변수
+    public float TimeLimit = 5f; // 제한시간
     public GameObject targetObject; // JJoayo 오브젝트를 연결하세요.
     public float stuckTimeLimit = 3.0f; // 갇혀있다고 판단하기 위한 시간 (초)
     public LayerMask obstacleLayer; // 장애물 레이어 설정
@@ -31,6 +33,7 @@ public class GameEndManager : MonoBehaviour
     private Vector2 lastPosition;
     private Vector2 rayDirection = Vector2.up;
     private float rayDistance = 2f;
+    private float timerTime = 0f; // 경과 시간
 
     void Start()
     {
@@ -54,6 +57,12 @@ public class GameEndManager : MonoBehaviour
         gameStartTime = Time.time;
         isGameRunning = true;
         lastPosition = rb.position;
+
+        if (timeSlider != null)
+        {
+            timeSlider.maxValue = TimeLimit; // 슬라이더의 최대값 설정
+            timeSlider.value = TimeLimit; // 초기값 설정
+        }
     }
 
     void FixedUpdate()
@@ -114,6 +123,17 @@ public class GameEndManager : MonoBehaviour
 
         // 경과 시간 업데이트
         elapsedTime += Time.deltaTime;
+        timerTime += Time.deltaTime;
+
+        if (timeSlider != null)
+        {
+            timeSlider.value = TimeLimit - timerTime; // 남은 시간 업데이트
+        }
+
+        if(timerTime >= TimeLimit)
+        {
+            EndGame();
+        }
 
         // TextMeshPro UI에 경과 시간 표시
         if (elapsedTimeText != null)
