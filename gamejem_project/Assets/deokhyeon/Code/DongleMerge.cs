@@ -13,7 +13,7 @@ public class DongleMerge : MonoBehaviour
     public int level; // Dongle의 레벨
     public GameObject nextLevelPrefab; // 다음 레벨의 Dongle 프리팹
     private bool isMerging = false; // 중복 Merge 방지 플래그
-    private const int maxLevel = 10; // 최대 레벨 설정
+    private const int maxLevel = 11; // 최대 레벨 설정
     public bool isGrounded = false; // 바닥 또는 다른 Dongle 위에 닿아있는지 여부를 나타내는 플래그
     public GameObject mergeEffectPrefab; // 병합 시 출력할 이펙트 프리팹
 
